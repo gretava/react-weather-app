@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@upleveled/react-scripts": "5.0.13",
+    "axios": "^1.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
