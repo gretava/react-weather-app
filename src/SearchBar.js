@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-export default function SearchBar({ onSearch }) {
+export default function SearchBar({ onSearch, setLocation }) {
   const [city, setCity] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setLocation(city);
     onSearch(city);
   };
 
@@ -19,7 +19,7 @@ export default function SearchBar({ onSearch }) {
           setCity(e.currentTarget.value);
         }}
       />
-      <button>Search</button>
+      <button type="submit">Search</button>
     </form>
   );
 }
