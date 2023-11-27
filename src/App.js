@@ -1,5 +1,6 @@
 import './App.css';
 import axios from 'axios';
+import { countries } from 'countries-list';
 import React, { useEffect, useState } from 'react';
 // import styles from './index.css';
 import styles from './App.css';
@@ -33,6 +34,15 @@ export default function App() {
     fetchData();
   }, [location, apiKey]);
 
+  // Function to get full country name from country code
+  const getCountryFullName = (countryCode) => {
+    return countries[countryCode]?.name || 'Unknown';
+  };
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   return (
     <>
       <SearchBar onSearch={() => {}} setLocation={setLocation} />
@@ -43,7 +53,7 @@ export default function App() {
               <div className={styles.location}>
                 <h2>
                   {data.name}, {''}
-                  {data.sys.country}
+                  {getCountryFullName(data.sys.country)}
                 </h2>
               </div>
               <div className={styles.temp}>
@@ -55,7 +65,11 @@ export default function App() {
               </div>
               <div className={styles.description}>
                 <p>
-                  {data.weather ? <span>{data.weather[0].main}</span> : null}
+                  {data.weather ? (
+                    <span>
+                      {capitalizeFirstLetter(data.weather[0].description)}
+                    </span>
+                  ) : null}
                 </p>
               </div>
             </div>
