@@ -11,6 +11,7 @@ import SearchBar from './SearchBar.js';
 export default function App() {
   const [data, setData] = useState({});
   const [location, setLocation] = useState('London');
+  const [weatherError, setWeatherError] = useState(null);
 
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
@@ -25,8 +26,10 @@ export default function App() {
           const response = await axios.get(url);
           console.log('API Response:', response.data);
           setData(response.data);
+          setWeatherError(null);
         } catch (error) {
           console.error('Error fetching data:', error);
+          setWeatherError('City not found. Please try again.');
         }
       }
     };
@@ -47,47 +50,58 @@ export default function App() {
     <>
       <SearchBar onSearch={() => {}} setLocation={setLocation} />
       <div className={styles.app}>
-        {data.name !== undefined && data.main !== undefined && (
-          <div className={styles.container}>
-            <div className={styles.top}>
-              <div className={styles.location}>
-                <h2>
-                  {data.name}, {''}
-                  {getCountryFullName(data.sys.country)}
-                </h2>
+        {weatherError ? (
+          <>
+            <br />
+            <br />
+            <span className="error-message">
+              <span>{weatherError}</span>
+            </span>
+          </>
+        ) : (
+          data.name !== undefined &&
+          data.main !== undefined && (
+            <div className={styles.container}>
+              <div className={styles.top}>
+                <div className={styles.location}>
+                  <h2>
+                    {data.name}, {''}
+                    {getCountryFullName(data.sys.country)}
+                  </h2>
+                </div>
+                <div className={styles.temp}>
+                  <p>
+                    {data.main ? (
+                      <span>{Math.round(data.main.temp.toFixed())}°C</span>
+                    ) : null}
+                  </p>
+                </div>
+                <div className={styles.description}>
+                  <p>
+                    {data.weather ? (
+                      <span>
+                        {capitalizeFirstLetter(data.weather[0].description)}
+                      </span>
+                    ) : null}
+                  </p>
+                </div>
               </div>
-              <div className={styles.temp}>
-                <p>
-                  {data.main ? (
-                    <span>{Math.round(data.main.temp.toFixed())}°C</span>
-                  ) : null}
-                </p>
-              </div>
-              <div className={styles.description}>
-                <p>
-                  {data.weather ? (
-                    <span>
-                      {capitalizeFirstLetter(data.weather[0].description)}
-                    </span>
-                  ) : null}
-                </p>
+              <div className={styles.bottom}>
+                <div className={styles.feelsLike}>
+                  <p>Feels like</p>
+                  <p>
+                    {data.main ? (
+                      <span>{Math.round(data.main.feels_like)}°C</span>
+                    ) : null}
+                  </p>{' '}
+                </div>
+                <div className={styles.wind}>
+                  <p>Wind speed</p>
+                  <p>{data.wind ? <span>{data.wind.speed}m/s</span> : null}</p>
+                </div>
               </div>
             </div>
-            <div className={styles.bottom}>
-              <div className={styles.feelsLike}>
-                <p>Feels like</p>
-                <p>
-                  {data.main ? (
-                    <span>{Math.round(data.main.feels_like)}°C</span>
-                  ) : null}
-                </p>{' '}
-              </div>
-              <div className={styles.wind}>
-                <p>Wind speed</p>
-                <p>{data.wind ? <span>{data.wind.speed}m/s</span> : null}</p>
-              </div>
-            </div>
-          </div>
+          )
         )}
       </div>
     </>
