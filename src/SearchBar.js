@@ -3,10 +3,13 @@ import { useState } from 'react';
 export default function SearchBar({ onSearch, setLocation }) {
   const [city, setCity] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('handleSubmit called with city:', city);
     setLocation(city);
-    onSearch(city);
+    // Make sure to call onSearch with the city directly
+    onSearch();
+    setCity('');
   };
 
   return (
@@ -19,7 +22,7 @@ export default function SearchBar({ onSearch, setLocation }) {
           setCity(e.currentTarget.value);
         }}
       />
-      <button type="submit">Search</button>
+      <button>Search</button>
     </form>
   );
 }
