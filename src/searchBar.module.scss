@@ -1,0 +1,35 @@
+.formContainer {
+  // display: flex; /* Use flexbox to create a horizontal layout */
+  // align-items: center;
+}
+
+input {
+  padding: 0.7rem 1.5rem;
+  font-size: 1.2rem;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8f8f8;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+::placeholder {
+  color: #f8f8f8;
+}
+
+.searchBtn {
+  // background: none;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.7rem 1.4rem;
+  margin-left: 10px;
+  filter: brightness(0) invert(1); // turns icon white
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.searchBtn:active {
+  opacity: 0.7;
+}

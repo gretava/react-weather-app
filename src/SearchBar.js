@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styles from './searchBar.module.scss';
 
 export default function SearchBar({ onSearch, setLocation }) {
   const [city, setCity] = useState('');
@@ -13,7 +14,7 @@ export default function SearchBar({ onSearch, setLocation }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
       <input
         type="text"
         value={city}
@@ -22,7 +23,14 @@ export default function SearchBar({ onSearch, setLocation }) {
           setCity(e.currentTarget.value);
         }}
       />
-      <button>Search</button>
+      <button className={styles.searchBtn}>
+        <img
+          width="20"
+          height="20"
+          src="https://img.icons8.com/ios/50/000000/search--v1.png"
+          alt="search--v1"
+        />
+      </button>
     </form>
   );
 }
