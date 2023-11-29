@@ -1,12 +1,8 @@
-import './App.css';
 import axios from 'axios';
 import { countries } from 'countries-list';
 import React, { useEffect, useState } from 'react';
-// import styles from './index.css';
-import styles from './App.css';
+import styles from './app.module.scss';
 import SearchBar from './SearchBar.js';
-
-// import WeatherCard from './WeatherCard.js';
 
 export default function App() {
   const [data, setData] = useState({});
@@ -48,8 +44,8 @@ export default function App() {
 
   return (
     <>
-      <SearchBar onSearch={() => {}} setLocation={setLocation} />
-      <div className={styles.app}>
+      <main className={styles.app}>
+        <SearchBar onSearch={() => {}} setLocation={setLocation} />
         {weatherError ? (
           <>
             <br />
@@ -69,21 +65,29 @@ export default function App() {
                     {getCountryFullName(data.sys.country)}
                   </h2>
                 </div>
-                <div className={styles.temp}>
-                  <p>
-                    {data.main ? (
-                      <span>{Math.round(data.main.temp.toFixed())}°C</span>
-                    ) : null}
-                  </p>
-                </div>
+                <p className={styles.temp}>
+                  {data.main ? (
+                    <span>
+                      {Math.round(data.main.temp.toFixed())}
+                      <sup className={styles.celsius}>°C</sup>
+                    </span>
+                  ) : null}
+                </p>
                 <div className={styles.description}>
-                  <p>
+                  <div>
                     {data.weather ? (
-                      <span>
-                        {capitalizeFirstLetter(data.weather[0].description)}
-                      </span>
+                      <>
+                        <div>
+                          <img
+                            src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+                          />
+                        </div>
+                        <span>
+                          {capitalizeFirstLetter(data.weather[0].description)}
+                        </span>
+                      </>
                     ) : null}
-                  </p>
+                  </div>
                 </div>
               </div>
               <div className={styles.bottom}>
@@ -103,7 +107,7 @@ export default function App() {
             </div>
           )
         )}
-      </div>
+      </main>
     </>
   );
 }
