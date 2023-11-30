@@ -42,8 +42,28 @@ export default function App() {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  const setBackgroundImage = (image) => {
+    document.body.style.background = `url('${image}')`;
+  };
+
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    const dayImageUrl = process.env.PUBLIC_URL + '/images/day.jpg';
+    const nightImageUrl = process.env.PUBLIC_URL + '/images/sky2.jpg';
+
+    if (currentHour >= 8 && currentHour <= 18) {
+      setBackgroundImage(dayImageUrl);
+    } else {
+      setBackgroundImage(nightImageUrl);
+    }
+
+    return () => {
+      setBackgroundImage(''); // Reset the background when component unmounts
+    };
+  }, []);
+
   return (
-    <>
+    <div>
       <main className={styles.app}>
         <SearchBar onSearch={() => {}} setLocation={setLocation} />
         {weatherError ? (
@@ -65,29 +85,34 @@ export default function App() {
                     {getCountryFullName(data.sys.country)}
                   </h2>
                 </div>
-                <p className={styles.temp}>
-                  {data.main ? (
-                    <span>
-                      {Math.round(data.main.temp.toFixed())}
-                      <sup className={styles.celsius}>°C</sup>
-                    </span>
-                  ) : null}
-                </p>
-                <div className={styles.description}>
-                  <div>
-                    {data.weather ? (
-                      <>
-                        <div>
-                          <img
-                            src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
-                          />
-                        </div>
-                        <span>
-                          {capitalizeFirstLetter(data.weather[0].description)}
-                        </span>
-                      </>
-                    ) : null}
+                <div className={styles.weatherBox}>
+                  <div className={styles.description}>
+                    <div>
+                      {data.weather ? (
+                        <>
+                          <div>
+                            <img
+                              className={styles.img}
+                              height={75}
+                              width={75}
+                              src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+                            />
+                          </div>
+                          <span className={styles.desc}>
+                            {capitalizeFirstLetter(data.weather[0].description)}
+                          </span>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
+                  <p className={styles.temp}>
+                    {data.main ? (
+                      <span>
+                        {Math.round(data.main.temp.toFixed())}
+                        <sup className={styles.celsius}>°C</sup>
+                      </span>
+                    ) : null}
+                  </p>
                 </div>
               </div>
               <div className={styles.bottom}>
@@ -108,6 +133,6 @@ export default function App() {
           )
         )}
       </main>
-    </>
+    </div>
   );
 }
