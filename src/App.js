@@ -42,25 +42,26 @@ export default function App() {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  const setBackgroundImage = (image) => {
-    document.body.style.background = `url('${image}')`;
-  };
+  // Dynamic background image based on hour (doesn't work,try again later)
+  // const setBackgroundImage = (image) => {
+  //   document.body.style.background = `url('${image}')`;
+  // };
 
-  useEffect(() => {
-    const currentHour = new Date().getHours();
-    const dayImageUrl = process.env.PUBLIC_URL + '/images/day.jpg';
-    const nightImageUrl = process.env.PUBLIC_URL + '/images/sky2.jpg';
+  // useEffect(() => {
+  //   const currentHour = new Date().getHours();
+  //   const dayImageUrl = process.env.PUBLIC_URL + '/images/day.jpg';
+  //   const nightImageUrl = process.env.PUBLIC_URL + '/images/sky2.jpg';
 
-    if (currentHour >= 8 && currentHour <= 18) {
-      setBackgroundImage(dayImageUrl);
-    } else {
-      setBackgroundImage(nightImageUrl);
-    }
+  //   if (currentHour >= 8 && currentHour <= 17) {
+  //     setBackgroundImage(dayImageUrl);
+  //   } else {
+  //     setBackgroundImage(nightImageUrl);
+  //   }
 
-    return () => {
-      setBackgroundImage(''); // Reset the background when component unmounts
-    };
-  }, []);
+  //   return () => {
+  //     setBackgroundImage(''); // Reset the background when component unmounts
+  //   };
+  // }, []);
 
   return (
     <div>
